@@ -7,10 +7,13 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
+    extend: {fontFamily: {
+      sans: ["Inter", "sans-serif"], // ✅ Change to match Figma
+    },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        
       },
     },
   },

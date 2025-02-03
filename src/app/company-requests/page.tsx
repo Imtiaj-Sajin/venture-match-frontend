@@ -1,34 +1,68 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import StatsCard from "@/components/StatsCard";
 import CompanyCard from "@/components/CompanyCard";
 
 export default function CompanyRequests() {
-  const stats = [
-    { title: "Total Approved", value: "689", percentage: "8.5%", status: "up", icon: "👤" },
-    { title: "In Pending", value: "32", percentage: "1.3%", status: "up", icon: "📦" },
-    { title: "Total Rejected", value: "95", percentage: "4.3%", status: "down", icon: "📉" },
-    { title: "In Queue", value: "19", percentage: "1.8%", status: "up", icon: "⏳" },
-  ];
+  const [queuedCompanies, setQueuedCompanies] = useState([]);
+  const router = useRouter();
 
-  const companyRequests = [
-    { id: "#44532", name: "Coca Coloa", type: "ecommerce", growth: "1282834122412", launch: "12/11/2020", funding: "$2.8b", status: "operational" },
-    { id: "#53532", name: "New Balance", type: "ecommerce", growth: "1282834122412", launch: "12/11/2020", funding: "$2.8b", status: "operational" },
-    { id: "#244532", name: "Nike", type: "ecommerce", growth: "1282834122412", launch: "12/11/2020", funding: "$2.8b", status: "operational" },
-  ];
+  // Check if user is authenticated
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("authToken");
+    if (!isAuthenticated) {
+      router.push("/auth/login");
+    }
+  }, []);
+
+  // Fetch queued companies from API
+  const fetchQueuedCompanies = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/sajin/companies/queued", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("authToken") || ""}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setQueuedCompanies(data);
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQueuedCompanies();
+  }, []);
 
   return (
     <div className="p-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-6 mb-8">
-        {stats.map((stat) => (
-          <StatsCard key={stat.title} {...stat} />
-        ))}
+        <StatsCard title="Total Approved" value="689" percentage="8.5%" status="up" icon="👤" />
+        <StatsCard title="In Pending" value="32" percentage="1.3%" status="up" icon="📦" />
+        <StatsCard title="Total Rejected" value="95" percentage="4.3%" status="down" icon="📉" />
+        <StatsCard title="In Queue" value={queuedCompanies.length} percentage="1.8%" status="up" icon="⏳" />
       </div>
 
-      {/* Company Request Cards */}
+      {/* Queued Company Request Cards */}
       <div className="grid grid-cols-3 gap-6">
-        {companyRequests.map((company) => (
-          <CompanyCard key={company.id} {...company} />
-        ))}
+        {queuedCompanies.length > 0 ? (
+          queuedCompanies.map((company) => (
+            <CompanyCard key={company.id} company={company} refreshCompanies={fetchQueuedCompanies} />
+          ))
+        ) : (
+          <p className="text-gray-500">No companies in queue.</p>
+        )}
       </div>
     </div>
   );
