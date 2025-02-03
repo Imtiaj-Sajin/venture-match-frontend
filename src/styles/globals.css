@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f8fafc;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 24px;
+    height: 64px;
+    align-items: center;
+  }
+
+  
