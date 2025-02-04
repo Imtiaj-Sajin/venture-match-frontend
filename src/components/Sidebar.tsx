@@ -3,16 +3,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import { BsBuilding, BsPeople, BsNewspaper, BsBarChart, BsGear, BsChatDots } from "react-icons/bs"; // ✅ Correct Icons
+import { SiApostrophe } from "react-icons/si";
+import { HiChartBar } from "react-icons/hi2";
+import { FaGear } from "react-icons/fa6";
+import { BsBuildingFillAdd } from "react-icons/bs";
+import { MdBroadcastOnPersonal } from "react-icons/md";
+import { BsPersonFill } from "react-icons/bs";
+import { PiChatTeardropDotsFill } from "react-icons/pi";
+
 
 const Sidebar = () => {
   const pathname = usePathname();
 
   const menuItems = [
-    { name: "Company Requests", path: "/admin/company-requests", icon: <BsBuilding className="h-5 w-5" /> },
-    { name: "Investor Requests", path: "/admin/investor-requests", icon: <BsPeople className="h-5 w-5" /> },
-    { name: "Newsletter", path: "/admin/newsletter", icon: <BsNewspaper className="h-5 w-5" /> },
-    { name: "KPIs", path: "/admin/kpis", icon: <BsBarChart className="h-5 w-5" /> },
-    { name: "Settings", path: "/settings", icon: <BsGear className="h-5 w-5" /> },
+    { name: "Support", path: "/admin/support", icon: <PiChatTeardropDotsFill className="h-5 w-5" /> },
+    { name: "Company Requests", path: "/admin/company-requests", icon: <MdBroadcastOnPersonal className="h-5 w-5" /> },
+    { name: "Investor Requests", path: "/admin/investor-requests", icon: <BsPersonFill className="h-5 w-5" /> },
+    { name: "Newsletter", path: "/admin/postnews", icon: <SiApostrophe className="h-5 w-5" /> },
+    { name: "KPIs", path: "/admin", icon: <HiChartBar className="h-5 w-5" /> },
+    { name: "Settings", path: "/settings", icon: <FaGear className="h-5 w-5" /> },
   ];
 
   return (
@@ -20,11 +29,7 @@ const Sidebar = () => {
       {/* Logo */}
       <h2 className="text-3xl font-bold text-gray-900 mb-8">Logo</h2>
 
-      {/* Support Link */}
-      <div className="flex items-center gap-3 text-gray-600 text-base mb-6 cursor-pointer hover:text-gray-900">
-        <BsChatDots className="h-5 w-5" />
-        <span>Support</span>
-      </div>
+      
 
       {/* Navigation Menu */}
       <nav>

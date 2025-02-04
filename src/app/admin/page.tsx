@@ -1,8 +1,20 @@
-export default function Home() {
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function Admin() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirect to /admin/company-requests
+    router.push("/admin/company-requests");
+  }, []);
+
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to Optra </h1>
-      <p className="text-lg text-gray-700">Find YOur investors.</p>
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">Redirecting...</h1>
     </div>
   );
 }

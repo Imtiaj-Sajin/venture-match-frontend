@@ -12,9 +12,9 @@ export default function Navbar() {
       {/* Navigation Links */}
       <div className="space-x-6">
       <Link href="/">Home</Link>
-        <Link href="/admin">Dashboard</Link>
-        <Link href="#">Solutions</Link>
-        <Link href="#">Pricing</Link>
+        <Link href="/admin/company-requests">Dashboard</Link>
+        <Link href="/#opportunities">Opportunities</Link>
+        <Link href="/newsletters">News</Link>
        </div>
 
       {/* CTA Button */}

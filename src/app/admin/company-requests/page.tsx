@@ -9,9 +9,11 @@ export default function CompanyRequests() {
   const [queuedCompanies, setQueuedCompanies] = useState([]);
   const router = useRouter();
 
+  
   // Check if user is authenticated
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("authToken");
+    console.log("isAuthenticated ==> ", isAuthenticated);
     if (!isAuthenticated) {
       router.push("/auth/login");
     }

@@ -7,8 +7,10 @@ import { MdEmail } from "react-icons/md";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "@/styles/globals.css";
+import { useEffect } from "react";
 
 export default function HomePage() {
+  
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
@@ -77,68 +79,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Reports Section */}
+      {/* Opportunies Section */}
      
-      <section className="p-16 bg-gray-50">
-  <h2 className="text-4xl font-bold text-gray-900 text-center">
-    Data & Insights on Startups and Innovation
-  </h2>
-  <p className="text-gray-600 text-lg max-w-3xl mx-auto text-center mt-3">
-    Leading industry reports on key innovation trends, venture capital, and ecosystems.
-  </p>
-
-  <div className="mt-12 space-y-16">
-    {/* Row 1: Image Left, Text Right */}
-    <div className="flex flex-col md:flex-row items-center gap-12">
-      <Image src="/ss6.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
-      <div className="md:w-1/2 text-left">
-        <h3 className="text-3xl font-semibold text-gray-800">Find Leading Investors that Match You</h3>
-        <p className="text-gray-600 mt-3 text-lg">
-          Discover the top investors based on industry, investment size, and success rate.
+      <section id="opportunities" className="p-16 bg-gray-50">
+        <h2 className="text-4xl font-bold text-gray-900 text-center">
+          Data & Insights on Startups and Innovation
+        </h2>
+        <p className="text-gray-600 text-lg max-w-3xl mx-auto text-center mt-3">
+          Leading industry reports on key innovation trends, venture capital, and ecosystems.
         </p>
-      </div>
-    </div>
 
-    {/* Row 2: Image Right, Text Left */}
-    <div className="flex flex-col md:flex-row-reverse items-center gap-12">
-      <Image src="/ss5.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
-      <div className="md:w-1/2 text-left">
-        <h3 className="text-3xl font-semibold text-gray-800">Market Insights & Trends</h3>
-        <p className="text-gray-600 mt-3 text-lg">
-          Get the latest data on emerging industries and investment patterns to stay ahead.
-        </p>
-      </div>
-    </div>
+        <div className="mt-12 space-y-16">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <Image src="/ss6.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
+            <div className="md:w-1/2 text-left">
+              <h3 className="text-3xl font-semibold text-gray-800">Find Leading Investors that Match You</h3>
+              <p className="text-gray-600 mt-3 text-lg">
+                Discover the top investors based on industry, investment size, and success rate.
+              </p>
+            </div>
+          </div>
 
-    {/* Row 3: Image Left, Text Right */}
-    <div className="flex flex-col md:flex-row items-center gap-12">
-      <Image src="/ss4.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
-      <div className="md:w-1/2 text-left">
-        <h3 className="text-3xl font-semibold text-gray-800">AI-Driven Investment Analysis</h3>
-        <p className="text-gray-600 mt-3 text-lg">
-          Leverage AI-powered analytics to identify the most promising investment opportunities.
-        </p>
-      </div>
-    </div>
+          <div className="flex flex-col md:flex-row-reverse items-center gap-12">
+            <Image src="/ss5.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
+            <div className="md:w-1/2 text-left">
+              <h3 className="text-3xl font-semibold text-gray-800">Market Insights & Trends</h3>
+              <p className="text-gray-600 mt-3 text-lg">
+                Get the latest data on emerging industries and investment patterns to stay ahead.
+              </p>
+            </div>
+          </div>
 
-    {/* Row 4: Image Right, Text Left */}
-    <div className="flex flex-col md:flex-row-reverse items-center gap-12">
-      <Image src="/ss3.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
-      <div className="md:w-1/2 text-left">
-        <h3 className="text-3xl font-semibold text-gray-800">Exclusive Data Reports</h3>
-        <p className="text-gray-600 mt-3 text-lg">
-          Access premium investment reports and case studies from top-tier venture capitalists.
-        </p>
-      </div>
-    </div>
-  </div>
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <Image src="/ss4.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
+            <div className="md:w-1/2 text-left">
+              <h3 className="text-3xl font-semibold text-gray-800">AI-Driven Investment Analysis</h3>
+              <p className="text-gray-600 mt-3 text-lg">
+                Leverage AI-powered analytics to identify the most promising investment opportunities.
+              </p>
+            </div>
+          </div>
 
-  <div className="flex justify-center mt-12">
-    <button className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition">
-      Read Latest Reports
-    </button>
-  </div>
-</section>
+          <div className="flex flex-col md:flex-row-reverse items-center gap-12">
+            <Image src="/ss3.png" width={600} height={350} quality={100} priority={true} unoptimized={true} alt="Report" className="rounded-lg shadow-md w-full md:w-1/2" />
+            <div className="md:w-1/2 text-left">
+              <h3 className="text-3xl font-semibold text-gray-800">Exclusive Data Reports</h3>
+              <p className="text-gray-600 mt-3 text-lg">
+                Access premium investment reports and case studies from top-tier venture capitalists.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-12">
+          <button className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition">
+            Read Latest Reports
+          </button>
+        </div>
+      </section>
 
 
 

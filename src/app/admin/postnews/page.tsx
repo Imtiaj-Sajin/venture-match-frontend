@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaPlus, FaTimes, FaChevronDown } from "react-icons/fa";
 import Image from "next/image";
+import "@/styles/globals.css"; // Import global styles
 
 export default function CreateNewsletter() {
   const router = useRouter();
@@ -32,11 +33,19 @@ export default function CreateNewsletter() {
     }
   };
 
+  // Add Keyword on Enter Press
+  const handleKeywordEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddKeyword();
+    }
+  };
+
   // Add Keyword
   const handleAddKeyword = () => {
     if (newKeyword.trim() !== "" && !keywords.includes(newKeyword)) {
       setKeywords([...keywords, newKeyword]);
-      setNewKeyword("");
+      setNewKeyword(""); // Reset input
     }
   };
 
@@ -45,9 +54,20 @@ export default function CreateNewsletter() {
     setKeywords(keywords.filter((_, i) => i !== index));
   };
 
+  // Validate Form Before Submitting
+  const isValidForm = () => {
+    if (!title.trim() || !subtitle.trim() || !content.trim() || !image) {
+      alert("All fields including an image are required!");
+      return false;
+    }
+    return true;
+  };
+
   // Handle Form Submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isValidForm()) return;
+
     setLoading(true);
 
     const token = localStorage.getItem("authToken");
@@ -104,7 +124,7 @@ export default function CreateNewsletter() {
         setKeywords([]);
         setImage(null);
         setImagePreview(null);
-        router.push("/admin/newsletter");
+        router.push("/admin/postnews");
       } else {
         const errorData = await response.json();
         console.error("Newsletter API error:", errorData);
@@ -119,21 +139,22 @@ export default function CreateNewsletter() {
   };
 
   return (
-    <div className="flex p-8 space-x-8 ">
+    <div className="flex p-8 space-x-8 font-poppins">
       {/* Left Section */}
-      <div className="flex-1 bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">
-          Create Newsletter
-        </h2>
+      <div className="flex-1 bg-white shadow-lg rounded-lg p-6 relative">
+        {/* Hashtag Title */}
+        <span className="absolute top-4 left-4 text-xs text-purple-500 uppercase font-bold">
+          #Create Newsletter
+        </span>
 
         {/* Title & Subtitle - Placeholder Effect */}
-        <div className="text-center mb-4">
+        <div className="text-center mb-8 mt-8">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Post Title"
-            className="w-full text-2xl font-semibold text-center bg-transparent outline-none placeholder-gray-400"
+            className="w-full text-3xl font-semibold text-center bg-transparent outline-none placeholder-gray-400"
           />
           <input
             type="text"
@@ -166,71 +187,82 @@ export default function CreateNewsletter() {
         </button>
       </div>
 
-      {/* Right Section (Image & Keywords) */}
-      <div className="w-96 bg-white shadow-lg rounded-lg p-4">
-        {/* Image Upload Box */}
-        <div className="relative w-full h-48 bg-gray-100 border-dashed border-2 border-gray-300 rounded-t-lg flex items-center justify-center">
-          {imagePreview ? (
-            <Image
-              src={imagePreview}
-              alt="Thumbnail Preview"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-t-lg"
-            />
-          ) : (
-            <label className="flex flex-col items-center cursor-pointer">
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <FaPlus className="text-gray-500 text-2xl" />
-              <span className="text-sm text-gray-500 mt-2">Select an Image</span>
-            </label>
-          )}
+  {/* Right Section (Image & Keywords) */}
+<div className="w-96 bg-white shadow-lg rounded-lg p-4">
+  {/* Image Upload Box - Now Whole Box Clickable */}
+  <label className="relative w-full h-48 bg-gray-100 border-dashed border-2 border-gray-300 rounded-t-lg flex items-center justify-center cursor-pointer">
+    <input
+      type="file"
+      accept="image/png, image/jpeg"
+      onChange={handleImageUpload}
+      className="hidden"
+    />
+    {imagePreview ? (
+      <>
+        <Image
+          src={imagePreview}
+          alt="Thumbnail Preview"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+        />
+        <div className="absolute inset-0 flex items-center justify-center  text-white font-semibold text-sm">
         </div>
+      </>
+    ) : (
+      <>
+        <FaPlus className="text-gray-500 text-2xl" />
+        <span className="text-sm text-gray-500 mt-2">Select an Image</span>
+      </>
+    )}
+  </label>
 
-        {/* Date Display */}
-        <p className="text-sm text-gray-600 mt-2 text-center">{currentDate}</p>
+  {/* Date Display */}
+  <p className="text-sm text-gray-600 mt-2 text-center">{currentDate}</p>
 
-        {/* Keywords Section */}
-        <div className="mt-4">
-          <p className="text-sm font-medium text-gray-700">Add related keyword</p>
-          <div className="flex items-center gap-2 mt-2">
-            <input
-              type="text"
-              placeholder="Keyword"
-              value={newKeyword}
-              onChange={(e) => setNewKeyword(e.target.value)}
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-            />
-            <button
-              onClick={handleAddKeyword}
-              className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
-            >
-              <FaPlus />
-            </button>
-          </div>
+  {/* Keywords Section */}
+  <div className="mt-4">
+    <p className="text-sm font-medium text-gray-700">Add related keyword</p>
+    <div className="flex items-center gap-2 mt-2">
+      <input
+        type="text"
+        placeholder="Keyword"
+        value={newKeyword}
+        onChange={(e) => setNewKeyword(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleAddKeyword();
+          }
+        }}
+        className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+      />
+      <button
+        onClick={handleAddKeyword}
+        className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+      >
+        <FaPlus />
+      </button>
+    </div>
 
-          {/* Keyword List */}
-          <div className="flex flex-wrap mt-2 gap-2">
-            {keywords.map((keyword, index) => (
-              <span
-                key={index}
-                className="bg-purple-100 text-purple-600 px-3 py-1 text-xs rounded-full flex items-center"
-              >
-                {keyword}
-                <FaTimes
-                  className="ml-2 cursor-pointer"
-                  onClick={() => handleRemoveKeyword(index)}
-                />
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+    {/* Keyword List */}
+    <div className="flex flex-wrap mt-2 gap-2">
+      {keywords.map((keyword, index) => (
+        <span
+          key={index}
+          className="bg-purple-100 text-purple-600 px-3 py-1 text-xs rounded-full flex items-center"
+        >
+          {keyword}
+          <FaTimes
+            className="ml-2 cursor-pointer hover:text-red-600"
+            onClick={() => handleRemoveKeyword(index)}
+          />
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
     </div>
   );
 }

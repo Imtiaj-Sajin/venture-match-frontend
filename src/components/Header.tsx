@@ -7,6 +7,8 @@ import { FaMoon, FaSun, FaCog, FaSignOutAlt } from "react-icons/fa";
 
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import { HiOutlineChevronDown } from "react-icons/hi"; // ✅ Added arrow icon
+import { PiNewspaperClippingFill } from "react-icons/pi";
+import { AiFillHome } from "react-icons/ai";
 
 
 export default function Header() {
@@ -35,7 +37,7 @@ export default function Header() {
 
       if (response.ok) {
         localStorage.removeItem("authToken");
-        router.push("/auth/login");
+        router.push("/");
       } else {
         console.error("Logout failed.");
       }
@@ -85,6 +87,22 @@ export default function Header() {
               >
                 <FaCog className="mr-2 text-gray-600" />
                 Settings
+              </button>
+              
+              <button
+                onClick={() => router.push("/newsletters")}
+                className="flex items-center px-4 py-2 w-full text-gray-700 hover:bg-gray-100"
+              >
+                <PiNewspaperClippingFill className="mr-2 text-gray-600" />
+                News Posted
+              </button>
+              
+               <button
+                onClick={() => router.push("/")}
+                className="flex items-center px-4 py-2 w-full text-gray-700 hover:bg-gray-100"
+              >
+                <AiFillHome className="mr-2 text-gray-600" />
+                Home
               </button>
 
               <button

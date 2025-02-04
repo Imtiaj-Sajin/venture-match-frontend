@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaUser, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -33,6 +33,35 @@ export default function LoginPage() {
       setError(data.message || "Invalid credentials");
     }
   };
+
+
+
+  // Handle Google Login
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3000/auth/google"; // Redirects to backend Google OAuth
+  };
+
+  // After Google login, check if the user is authenticated
+  useEffect(() => {
+    const checkGoogleLogin = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth/welcome", {
+          method: "GET",
+          credentials: "include", // Include cookies for authentication
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("authToken", data.token);
+          router.push("/admin/company-requests");
+        }
+      } catch (error) {
+        console.error("Google login check failed:", error);
+      }
+    };
+
+    checkGoogleLogin();
+  }, []);
   
 
   return (
@@ -111,12 +140,13 @@ export default function LoginPage() {
         </div>
 
         {/* Social Login Buttons */}
-        <a href="https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S974852949%3A1738650511388395&client_id=794475599108-jiv1a6oc3lopg2qg6lkeelcpka5hh2t6.apps.googleusercontent.com&code_challenge=IZOivbrAeOll904IkAmHfvyJWNAv2r5DoqJ2pVx0DRI&code_challenge_method=S256&ddm=1&o2v=2&redirect_uri=https%3A%2F%2Fcommentzap.com%2Fapi%2Fauth%2Fcallback%2Fgoogle&response_type=code&scope=openid+email+profile&service=lso&state=HJvjehcPCFkKRcMYIurJ_ktx-fZi2LurRCC-Bvm7Shk&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAO1cxlvhKprhN0qgDMblKgT2Ve93i_sJOBie9lZlH9EpodvHt39btwqR00nYDtqyZUJP5VQYmmM_SuptGfw2tbBNTThtdDzF6bYvgCqLg5ydPIzu1clu3U3L6OlvItnQkxine3cpbt_Y0adU-LOPSWvMcIFjVD537ZjE1EhCDzQiUxlUbltx_M8PVsboT2GhbyclXXNFKdIFemDuS_pE4CAlEyICREPEskJxkO4XlBr3phiRz9Vf-X2iDLfSZD9otJYDJQoAfWVZ-BH83zzbKZIwiSf_HGgp9TovRAhc0XKxU4jpEUBkaZOCLYwt6qDzYh5pkCkg_nlFYoPFyYzbT8DjRMG2e_DohCzedO4eiAV1y1w2kcaiNucpJyPNP-JtqchkOBkcNNHR3iMpcct5qcibJVT4EWgAOTkLphToKfd4a2gtmQtKy8VrJ61t7OCVr5xxZp7fg2JBuDGF2-eBQXnGl8IaA%26flowName%3DGeneralOAuthFlow%26as%3DS974852949%253A1738650511388395%26client_id%3D794475599108-jiv1a6oc3lopg2qg6lkeelcpka5hh2t6.apps.googleusercontent.com%23&app_domain=https%3A%2F%2Fcommentzap.com&rart=ANgoxceMtCsIrNlJr0Dos7SGU1aFO4onKmvYnzHZphnC1xSUMLj5lMM_Fmm_BQVxxLSOH0QCuEHfyw8ryq93qNAr6mcOoOXWfOZhz-BcbAE_x1FotuWkTls" className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition"
+        >
           <FcGoogle className="text-xl mr-2" /> Continue with Google
-        </a>
-        {/* <button className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-lg text-blue-700 mt-3 hover:bg-gray-100 transition">
-          <FaLinkedin className="text-xl mr-2" /> Continue with LinkedIn
-        </button> */}
+        </button>
+       
       </div>
     </div>
   );
