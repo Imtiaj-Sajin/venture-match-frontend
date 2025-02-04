@@ -48,10 +48,10 @@ export default function CompanyRequests() {
     <div className="p-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-6 mb-8">
-        <StatsCard title="Total Approved" value="689" percentage="8.5%" status="up" icon="👤" />
-        <StatsCard title="In Pending" value="32" percentage="1.3%" status="up" icon="📦" />
-        <StatsCard title="Total Rejected" value="95" percentage="4.3%" status="down" icon="📉" />
-        <StatsCard title="In Queue" value={queuedCompanies.length} percentage="1.8%" status="up" icon="⏳" />
+        <StatsCard title="Total Approved" value="689" percentage="8.5%" status="up" icon="approved" />
+        <StatsCard title="In Pending" value="32" percentage="1.3%" status="up" icon="pending" />
+        <StatsCard title="Total Rejected" value="95" percentage="4.3%" status="down" icon="rejected" />
+        <StatsCard title="In Queue" value={queuedCompanies.length} percentage="1.8%" status="up" icon="queue" />
       </div>
 
       {/* Queued Company Request Cards */}

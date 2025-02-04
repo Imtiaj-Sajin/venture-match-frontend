@@ -8,8 +8,8 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   const menuItems = [
-    { name: "Company Requests", path: "/company-requests", icon: <BsBuilding className="h-5 w-5" /> },
-    { name: "Investor Requests", path: "/investor-requests", icon: <BsPeople className="h-5 w-5" /> },
+    { name: "Company Requests", path: "/admin/company-requests", icon: <BsBuilding className="h-5 w-5" /> },
+    { name: "Investor Requests", path: "/admin/investor-requests", icon: <BsPeople className="h-5 w-5" /> },
     { name: "Newsletter", path: "/newsletter", icon: <BsNewspaper className="h-5 w-5" /> },
     { name: "KPIs", path: "/kpis", icon: <BsBarChart className="h-5 w-5" /> },
     { name: "Settings", path: "/settings", icon: <BsGear className="h-5 w-5" /> },
