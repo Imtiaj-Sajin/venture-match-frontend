@@ -10,6 +10,8 @@ import { BsBuildingFillAdd } from "react-icons/bs";
 import { MdBroadcastOnPersonal } from "react-icons/md";
 import { BsPersonFill } from "react-icons/bs";
 import { PiChatTeardropDotsFill } from "react-icons/pi";
+import { AiFillGold } from "react-icons/ai";
+import { SiGoogleadsense } from "react-icons/si";
 
 
 const Sidebar = () => {
@@ -20,6 +22,7 @@ const Sidebar = () => {
     { name: "Company Requests", path: "/admin/company-requests", icon: <MdBroadcastOnPersonal className="h-5 w-5" /> },
     { name: "Investor Requests", path: "/admin/investor-requests", icon: <BsPersonFill className="h-5 w-5" /> },
     { name: "Newsletter", path: "/admin/postnews", icon: <SiApostrophe className="h-5 w-5" /> },
+    { name: "Leads", path: "/admin/leads", icon: <AiFillGold className="h-5 w-5" /> },
     { name: "KPIs", path: "/admin", icon: <HiChartBar className="h-5 w-5" /> },
     { name: "Settings", path: "/settings", icon: <FaGear className="h-5 w-5" /> },
   ];

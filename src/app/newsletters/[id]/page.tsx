@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "@/styles/globals.css";
 
-const fallbackImage = "/default-news.jpg"; // Default placeholder
+const fallbackImage = "/default-news.jpg"; 
 
 export default function NewsPage() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function NewsPage() {
         const data = await response.json();
         setNews(data);
 
-        // Fetch all news for related news matching
+        
         const allNewsResponse = await fetch("http://localhost:3000/sajin/allNewsletter");
         if (!allNewsResponse.ok) throw new Error("Failed to fetch all news");
         const allNews = await allNewsResponse.json();
@@ -36,26 +36,26 @@ export default function NewsPage() {
           .map((item) => {
             let matchScore = 0;
 
-            // **1st Priority: Keyword Matching**
+            // 1st Priority: Keyword Matching
             if (item.keywords.some((kw:any) => data.keywords.includes(kw))) {
-              matchScore += 3; // High priority match
+              matchScore += 3; 
             }
 
             // **2nd Priority: Title Similarity Matching**
             if (data.title.toLowerCase().includes(item.title.toLowerCase()) ||
                 item.title.toLowerCase().includes(data.title.toLowerCase())) {
-              matchScore += 2; // Medium priority match
+              matchScore += 2; 
             }
 
-            // **3rd Priority: Body Content Similarity**
+            // *3rd Priority: Body Content Similarity
             if (data.body.toLowerCase().includes(item.body.substring(0, 50).toLowerCase())) {
               matchScore += 1; // Low priority match
             }
 
             return { ...item, matchScore };
           })
-          .sort((a, b) => b.matchScore - a.matchScore) // Sort by highest match score
-          .slice(0, 4); // Limit to 4 related news
+          .sort((a, b) => b.matchScore - a.matchScore) 
+          .slice(0, 4); // 4 related news
 
         setRelatedNews(related);
       } catch (error) {
@@ -78,7 +78,7 @@ export default function NewsPage() {
 
   return (
     <div className="pt-20 font-poppins bg-gray-100 min-h-screen">
-      {/* Navbar */}
+
       <Navbar />
 
       <div className="container mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8">
@@ -132,11 +132,11 @@ export default function NewsPage() {
             {news.body}
           </div>
 
-          {/* Inline Advertisement Section */}
+          {/*  Advertisement Section */}
           <div className="mt-8">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Advertisement</h3>
             <div className="w-full h-32 bg-gray-200 flex items-center justify-center rounded-lg shadow">
-              <p className="text-gray-500">[Your Ad Here]</p>
+              <p className="text-gray-500">[Ads]</p>
             </div>
           </div>
 
@@ -157,7 +157,7 @@ export default function NewsPage() {
 
         {/* Sidebar for Related News & Ads */}
         <div className="w-full lg:w-1/4 space-y-6">
-          {/* Related News Section */}
+
           <div className="bg-white shadow-md rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Related News</h3>
             {relatedNews.map((item) => (
@@ -192,7 +192,7 @@ export default function NewsPage() {
           <div className="bg-white shadow-md rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Sponsored</h3>
             <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg shadow">
-              <p className="text-gray-500">[Ad Banner Here]</p>
+              <p className="text-gray-500">[Ad Banner]</p>
             </div>
           </div>
         </div>

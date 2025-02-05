@@ -1,22 +1,82 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { FaUsers, FaChartBar, FaGlobe, FaRocket } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { FaUsers, FaChartBar, FaGlobe } from "react-icons/fa";
+// import { MdEmail } from "react-icons/md";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "@/styles/globals.css";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+import { useState } from "react";
 
 export default function HomePage() {
-  
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Function to Fetch IP & Location Details
+  const fetchIPData = async () => {
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      if (!response.ok) throw new Error("Failed to fetch IP data");
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching IP details:", error);
+      return null;
+    }
+  };
+
+
+
+  const handleBookDemo = async () => {
+    console.log("email ==> ", email);
+
+    if (!email.trim()) {
+      setMessage("Please enter a valid email.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    const ipData = await fetchIPData();
+
+    const leadData = {
+      email,
+      time: new Date().toISOString(),
+      ip: ipData?.ip || "Unknown",
+      city: ipData?.city || "Unknown",
+      country: ipData?.country_name || "Unknown",
+      source: "home",
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/leads/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadData),
+      });
+
+      if (response.ok) {
+        setMessage("Thank you! We'll be in touch.");
+        setEmail("");
+      } else {
+        setMessage("Failed to submit. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting lead:", error);
+      setMessage("Error submitting lead.");
+    }
+
+    setLoading(false);
+  };
+
+
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Hero Section */}
       <section className="min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-10">
         <h1 className="text-4xl font-bold max-w-3xl">
           Connects Investors and Companies
@@ -24,19 +84,32 @@ export default function HomePage() {
         <p className="mt-4 text-base max-w-2xl">
           Global data platform for intelligence on startups, innovation, high-growth companies, ecosystems, and investment strategies.
         </p>
+
+
         <div className="flex space-x-3 mt-6">
           <input
             type="email"
             placeholder="Work email"
             className="px-4 py-3 rounded-lg text-gray-900 focus:outline-none w-64"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button className="bg-white text-purple-600 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition">
-            Book a demo
+          <button
+            className="bg-white text-purple-600 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition"
+            onClick={handleBookDemo}
+
+            
+            disabled={loading}
+          >
+            {loading ? "Submitting..." : "Book a demo"}
           </button>
         </div>
+
+
       </section>
 
-      {/* Hero Image */}
+
+
       <div className="flex justify-center -mt-20">
         <Image
           src="/ss2.png"
@@ -47,7 +120,6 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Trusted Companies Section */}
       <section className="p-10 text-center">
         <h2 className="text-2xl font-semibold text-gray-700">Our clients include</h2>
         <div className="flex justify-center gap-10 mt-6">
@@ -79,7 +151,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Opportunies Section */}
+
+      {/* Opportunies  */}
      
       <section id="opportunities" className="p-16 bg-gray-50">
         <h2 className="text-4xl font-bold text-gray-900 text-center">
@@ -140,7 +213,6 @@ export default function HomePage() {
 
 
 
-      {/* Footer */}
       <Footer />
     </div>
   );
