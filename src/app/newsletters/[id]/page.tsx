@@ -16,46 +16,104 @@ export default function NewsPage() {
   const [relatedNews, setRelatedNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [email, setEmail] = useState("");
+  const [emailLoading, setEmailLoading] = useState(false); 
+  const [message, setMessage] = useState("");
+
+  // Fetch IP Data
+  const fetchIPData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/leads/get-ip");
+      const data = await response.json();
+      console.log("Fetched IP Data:", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching IP details:", error);
+      return { ip: "Unknown", city: "Unknown", country: "Unknown" };
+    }
+  };
+
+  // Handle Book Demo button click
+  const handleBookDemo = async () => {
+    console.log("email ==> ", email);
+
+    if (!email.trim()) {
+      setMessage("Please enter a valid email.");
+      return;
+    }
+
+    setEmailLoading(true); // Set emailLoading to true when submitting
+    setMessage(""); // Clear message
+
+    const ipData = await fetchIPData();
+    console.log("ipData ==> ", ipData);
+    console.log("ipData?.country ==> ", ipData?.country);
+
+    const leadData = {
+      email,
+      time: new Date().toISOString(),
+      ip: ipData?.query || "Unknown",  
+      city: ipData?.city || "Unknown",
+      country: ipData?.country || "Unknown", 
+      source: "news",
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/leads/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadData),
+      });
+
+      if (response.ok) {
+        setMessage("Thank you! We'll be in touch.");
+        setEmail(""); // Clear email input field after successful submission
+      } else {
+        setMessage("Failed to submit. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting lead:", error);
+      setMessage("Error submitting lead.");
+    }
+
+    setEmailLoading(false); // Set emailLoading to false after completion
+  };
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        // Fetch current news article
         const response = await fetch(`http://localhost:3000/sajin/newsletter/${id}`);
         if (!response.ok) throw new Error("Failed to fetch news");
         const data = await response.json();
         setNews(data);
 
-        
         const allNewsResponse = await fetch("http://localhost:3000/sajin/allNewsletter");
         if (!allNewsResponse.ok) throw new Error("Failed to fetch all news");
         const allNews = await allNewsResponse.json();
 
         // Filter & sort related news based on priority algorithm
         const related = allNews
-          .filter((item:any) => item.id !== data.id) // Exclude current news
+          .filter((item: any) => item.id !== data.id) 
           .map((item) => {
             let matchScore = 0;
 
-            // 1st Priority: Keyword Matching
-            if (item.keywords.some((kw:any) => data.keywords.includes(kw))) {
+            if (item.keywords.some((kw: any) => data.keywords.includes(kw))) {
               matchScore += 3; 
             }
 
-            // **2nd Priority: Title Similarity Matching**
             if (data.title.toLowerCase().includes(item.title.toLowerCase()) ||
                 item.title.toLowerCase().includes(data.title.toLowerCase())) {
               matchScore += 2; 
             }
 
-            // *3rd Priority: Body Content Similarity
             if (data.body.toLowerCase().includes(item.body.substring(0, 50).toLowerCase())) {
-              matchScore += 1; // Low priority match
+              matchScore += 1; 
             }
 
             return { ...item, matchScore };
           })
           .sort((a, b) => b.matchScore - a.matchScore) 
-          .slice(0, 4); // 4 related news
+          .slice(0, 4); 
 
         setRelatedNews(related);
       } catch (error) {
@@ -82,9 +140,8 @@ export default function NewsPage() {
       <Navbar />
 
       <div className="container mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8">
-        {/* News Content */}
         <div className="w-full lg:w-3/4 bg-white shadow-md rounded-lg p-6">
-          {/* Featured Image */}
+          
           <div className="relative w-full h-96 rounded-lg overflow-hidden">
             <Image
               src={news.thumbnailImg || fallbackImage}
@@ -95,11 +152,9 @@ export default function NewsPage() {
             />
           </div>
 
-          {/* News Title */}
           <h1 className="text-4xl font-bold text-gray-900 mt-6">{news.title}</h1>
           <p className="text-lg text-gray-500 mt-2">{news.subtitle}</p>
 
-          {/* Date */}
           <p className="text-sm text-gray-500 mt-1">
             Published on{" "}
             {new Date(news.postDateTime).toLocaleDateString("en-US", {
@@ -109,9 +164,6 @@ export default function NewsPage() {
             })}
           </p>
 
-          
-
-          {/* Email Subscription Box */}
           <div className="mt-8 bg-purple-50 p-6 rounded-lg text-center shadow-md">
             <h3 className="text-xl font-semibold text-purple-700">The startup discovery engine</h3>
             <p className="text-sm text-gray-600">Find your fund returners</p>
@@ -120,19 +172,24 @@ export default function NewsPage() {
                 type="email"
                 placeholder="Enter your email"
                 className="p-3 w-64 border border-gray-300 rounded-l-lg focus:outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} // Bind the input field to the state
               />
-              <button className="px-4 bg-purple-600 text-white font-semibold rounded-r-lg hover:bg-purple-700">
-                Book a demo
+              <button
+                className="px-4 bg-purple-600 text-white font-semibold rounded-r-lg hover:bg-purple-700"
+                onClick={handleBookDemo}
+                disabled={emailLoading} // Disabled based on emailLoading state
+              >
+                {emailLoading ? "Submitting..." : "Book a demo"}
               </button>
             </div>
+            {message && <p className="mt-4 text-gray-700">{message}</p>}
           </div>
 
-          {/* News Body */}
           <div className="mt-4 text-gray-700 text-lg leading-relaxed whitespace-pre-line">
             {news.body}
           </div>
 
-          {/*  Advertisement Section */}
           <div className="mt-8">
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Advertisement</h3>
             <div className="w-full h-32 bg-gray-200 flex items-center justify-center rounded-lg shadow">
@@ -140,9 +197,6 @@ export default function NewsPage() {
             </div>
           </div>
 
-          
-
-          {/* CTA Section - Encourage Product Conversion */}
           <div className="my-6 bg-purple-100 text-purple-700 p-4 rounded-lg text-center shadow-md">
             <h3 className="text-xl font-semibold"> Looking for Investment Opportunities?</h3>
             <p className="text-sm">Find investors or explore businesses to invest in.</p>
@@ -155,7 +209,6 @@ export default function NewsPage() {
           </div>
         </div>
 
-        {/* Sidebar for Related News & Ads */}
         <div className="w-full lg:w-1/4 space-y-6">
 
           <div className="bg-white shadow-md rounded-lg p-4">
@@ -188,7 +241,6 @@ export default function NewsPage() {
             ))}
           </div>
 
-          {/* Sidebar Ad Section */}
           <div className="bg-white shadow-md rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Sponsored</h3>
             <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg shadow">
@@ -198,7 +250,6 @@ export default function NewsPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
