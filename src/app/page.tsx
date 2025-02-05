@@ -14,17 +14,19 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Function to Fetch IP & Location Details
   const fetchIPData = async () => {
     try {
-      const response = await fetch("https://ipapi.co/json/");
-      if (!response.ok) throw new Error("Failed to fetch IP data");
-      return await response.json();
+      const response = await fetch("http://localhost:3000/leads/get-ip");
+      const data = await response.json();
+      console.log("Fetched IP Data:", data);  
+      return data;
     } catch (error) {
       console.error("Error fetching IP details:", error);
-      return null;
+      return { ip: "Unknown", city: "Unknown", country: "Unknown" };
     }
   };
+  
+  
 
 
 
@@ -40,15 +42,19 @@ export default function HomePage() {
     setMessage("");
 
     const ipData = await fetchIPData();
+    console.log("ipData ==> ", ipData);
+    console.log("ipData?.country ==> ", ipData?.country);
 
     const leadData = {
       email,
       time: new Date().toISOString(),
-      ip: ipData?.ip || "Unknown",
+      ip: ipData?.query || "Unknown",  // `query` contains the actual IP
       city: ipData?.city || "Unknown",
-      country: ipData?.country_name || "Unknown",
+      country: ipData?.country || "Unknown", //  Correct field name
+      // console.log("country ==> ", country);
       source: "home",
     };
+    
 
     try {
       const response = await fetch("http://localhost:3000/leads/track", {
