@@ -14,22 +14,31 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+
+  
   const fetchIPData = async () => {
     try {
       const response = await fetch("http://localhost:3000/leads/get-ip");
       const data = await response.json();
-      console.log("Fetched IP Data:", data);  
+      console.log("Fetched IP Data:", data);
       return data;
     } catch (error) {
       console.error("Error fetching IP details:", error);
-      return { ip: "Unknown", city: "Unknown", country: "Unknown" };
+      return {
+        query: "Unknown",
+        city: "Unknown",
+        country: "Unknown",
+        lat: "Unknown",
+        lon: "Unknown",
+        timezone: "Unknown",
+        currency: "Unknown",
+        mobile: false,
+        device: "Unknown",
+      };
     }
   };
-  
-  
 
-
-
+  // ✅ Handle Book Demo
   const handleBookDemo = async () => {
     console.log("email ==> ", email);
 
@@ -43,18 +52,22 @@ export default function HomePage() {
 
     const ipData = await fetchIPData();
     console.log("ipData ==> ", ipData);
-    console.log("ipData?.country ==> ", ipData?.country);
 
     const leadData = {
       email,
       time: new Date().toISOString(),
-      ip: ipData?.query || "Unknown",  // `query` contains the actual IP
+      ip: ipData?.query || "Unknown",
       city: ipData?.city || "Unknown",
-      country: ipData?.country || "Unknown", //  Correct field name
-      // console.log("country ==> ", country);
+      regionName: ipData?.regionName || "Unknown",
+      country: ipData?.country || "Unknown",
+      latitude: ipData?.lat?.toString() || "Unknown",
+      longitude: ipData?.lon?.toString() || "Unknown",
+      timezone: ipData?.timezone || "Unknown",
+      currency: ipData?.currency || "Unknown",
+      mobile: ipData?.mobile || false,  
+      device: ipData?.device || "Unknown",
       source: "home",
     };
-    
 
     try {
       const response = await fetch("http://localhost:3000/leads/track", {
@@ -76,7 +89,6 @@ export default function HomePage() {
 
     setLoading(false);
   };
-
 
 
   return (

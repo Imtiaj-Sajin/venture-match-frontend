@@ -15,7 +15,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       }
     `;
 
-    
     document.head.appendChild(script1);
 
     const script2 = document.createElement("script");
@@ -28,11 +27,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className="flex bg-gray-50">
+      <body className="flex bg-gray-50 h-screen overflow-hidden"> {/* Prevent scrolling */}
         <Sidebar />
-        <div className="flex-1 ml-64">
+        <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden"> {/* Make content fit */}
           <Header />
-          <main className="mt-16 p-0">{children}</main>
+          <main className="flex-1 mt-16 p-0 overflow-auto"> {/* Scroll only inside this if needed */}
+            {children}
+          </main>
         </div>
       </body>
     </html>

@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
+import * as dotenv from 'dotenv';
 
 export async function POST(req: Request) {
+    console.log('came to mail');
   try {
     const { subject, text, toEmail } = await req.json();
 
@@ -8,10 +10,12 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'ksajin63@gmail.com',
-        pass: 'qung glcv upgz zfqz',
+        user: process.env.USER_EMAIL,
+        pass: process.env.PASS_EMAIL,
       },
     });
+
+    console.log(process.env.UER_EMAIL)
 
     const mailOptions = {
       from: 'ksajin63@gmail.com', // Your email

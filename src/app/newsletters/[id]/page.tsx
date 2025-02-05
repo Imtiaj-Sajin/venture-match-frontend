@@ -52,10 +52,17 @@ export default function NewsPage() {
     const leadData = {
       email,
       time: new Date().toISOString(),
-      ip: ipData?.query || "Unknown",  
+      ip: ipData?.query || "Unknown",
       city: ipData?.city || "Unknown",
-      country: ipData?.country || "Unknown", 
-      source: "news",
+      regionName: ipData?.regionName || "Unknown",
+      country: ipData?.country || "Unknown",
+      latitude: ipData?.lat?.toString() || "Unknown",
+      longitude: ipData?.lon?.toString() || "Unknown",
+      timezone: ipData?.timezone || "Unknown",
+      currency: ipData?.currency || "Unknown",
+      mobile: ipData?.mobile || false,  
+      device: ipData?.device || "Unknown",
+      source: "http://localhost:3001/newsletter/"+id,
     };
 
     try {
@@ -173,12 +180,12 @@ export default function NewsPage() {
                 placeholder="Enter your email"
                 className="p-3 w-64 border border-gray-300 rounded-l-lg focus:outline-none"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)} // Bind the input field to the state
+                onChange={(e) => setEmail(e.target.value)} 
               />
               <button
                 className="px-4 bg-purple-600 text-white font-semibold rounded-r-lg hover:bg-purple-700"
                 onClick={handleBookDemo}
-                disabled={emailLoading} // Disabled based on emailLoading state
+                disabled={emailLoading} 
               >
                 {emailLoading ? "Submitting..." : "Book a demo"}
               </button>
@@ -208,6 +215,8 @@ export default function NewsPage() {
             </button>
           </div>
         </div>
+
+
 
         <div className="w-full lg:w-1/4 space-y-6">
 

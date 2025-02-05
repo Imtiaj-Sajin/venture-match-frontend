@@ -188,80 +188,80 @@ export default function CreateNewsletter() {
       </div>
 
   {/* Right Section (Image & Keywords) */}
-<div className="w-96 bg-white shadow-lg rounded-lg p-4">
-  {/* Image Upload Box - Now Whole Box Clickable */}
-  <label className="relative w-full h-48 bg-gray-100 border-dashed border-2 border-gray-300 rounded-t-lg flex items-center justify-center cursor-pointer">
-    <input
-      type="file"
-      accept="image/png, image/jpeg"
-      onChange={handleImageUpload}
-      className="hidden"
-    />
-    {imagePreview ? (
-      <>
-        <Image
-          src={imagePreview}
-          alt="Thumbnail Preview"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-t-lg"
+    <div className="w-96 bg-white shadow-lg rounded-lg p-4">
+      {/* Image Upload Box - Now Whole Box Clickable */}
+      <label className="relative w-full h-48 bg-gray-100 border-dashed border-2 border-gray-300 rounded-t-lg flex items-center justify-center cursor-pointer">
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={handleImageUpload}
+          className="hidden"
         />
-        <div className="absolute inset-0 flex items-center justify-center  text-white font-semibold text-sm">
-        </div>
-      </>
-    ) : (
-      <>
-        <FaPlus className="text-gray-500 text-2xl" />
-        <span className="text-sm text-gray-500 mt-2">Select an Image</span>
-      </>
-    )}
-  </label>
+        {imagePreview ? (
+          <>
+            <Image
+              src={imagePreview}
+              alt="Thumbnail Preview"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-lg"
+            />
+            <div className="absolute inset-0 flex items-center justify-center  text-white font-semibold text-sm">
+            </div>
+          </>
+        ) : (
+          <>
+            <FaPlus className="text-gray-500 text-2xl" />
+            <span className="text-sm text-gray-500 mt-2">Select an Image</span>
+          </>
+        )}
+      </label>
 
-  {/* Date Display */}
-  <p className="text-sm text-gray-600 mt-2 text-center">{currentDate}</p>
+      {/* Date Display */}
+      <p className="text-sm text-gray-600 mt-2 text-center">{currentDate}</p>
 
-  {/* Keywords Section */}
-  <div className="mt-4">
-    <p className="text-sm font-medium text-gray-700">Add related keyword</p>
-    <div className="flex items-center gap-2 mt-2">
-      <input
-        type="text"
-        placeholder="Keyword"
-        value={newKeyword}
-        onChange={(e) => setNewKeyword(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            handleAddKeyword();
-          }
-        }}
-        className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-      />
-      <button
-        onClick={handleAddKeyword}
-        className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
-      >
-        <FaPlus />
-      </button>
-    </div>
-
-    {/* Keyword List */}
-    <div className="flex flex-wrap mt-2 gap-2">
-      {keywords.map((keyword, index) => (
-        <span
-          key={index}
-          className="bg-purple-100 text-purple-600 px-3 py-1 text-xs rounded-full flex items-center"
-        >
-          {keyword}
-          <FaTimes
-            className="ml-2 cursor-pointer hover:text-red-600"
-            onClick={() => handleRemoveKeyword(index)}
+      {/* Keywords Section */}
+      <div className="mt-4">
+        <p className="text-sm font-medium text-gray-700">Add related keyword</p>
+        <div className="flex items-center gap-2 mt-2">
+          <input
+            type="text"
+            placeholder="Keyword"
+            value={newKeyword}
+            onChange={(e) => setNewKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleAddKeyword();
+              }
+            }}
+            className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
-        </span>
-      ))}
+          <button
+            onClick={handleAddKeyword}
+            className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+          >
+            <FaPlus />
+          </button>
+        </div>
+
+        {/* Keyword List */}
+        <div className="flex flex-wrap mt-2 gap-2">
+          {keywords.map((keyword, index) => (
+            <span
+              key={index}
+              className="bg-purple-100 text-purple-600 px-3 py-1 text-xs rounded-full flex items-center"
+            >
+              {keyword}
+              <FaTimes
+                className="ml-2 cursor-pointer hover:text-red-600"
+                onClick={() => handleRemoveKeyword(index)}
+              />
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     </div>
   );
