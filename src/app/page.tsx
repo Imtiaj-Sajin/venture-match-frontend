@@ -38,7 +38,7 @@ export default function HomePage() {
     }
   };
 
-  // ✅ Handle Book Demo
+  //  Handle Book Demo
   const handleBookDemo = async () => {
     console.log("email ==> ", email);
 

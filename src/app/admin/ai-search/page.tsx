@@ -1,36 +1,37 @@
-// File: src/app/admin/ai-search/page.tsx
 "use client";
 
 import { useState } from "react";
 
 export default function AISearchPage() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [results, setResults] = useState<any[]>([]); 
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    if (!query.trim()) return; 
 
     setLoading(true);
-    setError("");
+    setError(""); 
+
     try {
       const response = await fetch("/api/ai-search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query }), 
       });
+
       const data = await response.json();
-      setResults(data.results || []);
+      setResults(data.results || []); 
     } catch (err) {
-      setError("Failed to fetch data.");
+      setError("Failed to fetch data."); 
     }
-    setLoading(false);
+    setLoading(false); 
   };
 
   return (
     <div className="p-8 bg-gray-50" style={{ height: "calc(100vh - 4rem)" }}>
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">Your Ai Assistant</h1>
+      <h1 className="text-3xl font-bold text-purple-700 mb-6">AI Search</h1>
       <div className="flex gap-4 mb-6">
         <input
           type="text"
@@ -49,6 +50,7 @@ export default function AISearchPage() {
 
       {error && <p className="text-red-500 font-semibold">{error}</p>}
 
+      {/* Display Results in Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {results.map((result, index) => (
           <div key={index} className="p-4 bg-white rounded-lg shadow-md border border-gray-200">
