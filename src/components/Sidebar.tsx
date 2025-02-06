@@ -25,7 +25,7 @@ const Sidebar = () => {
     { name: "Newsletter", path: "/admin/postnews", icon: <SiApostrophe className="h-5 w-5" /> },
     { name: "Leads", path: "/admin/leads", icon: <AiFillGold className="h-5 w-5" /> },
     { name: "Ai Query", path: "/admin/ai-search", icon: <TbZoomCodeFilled className="h-5 w-5" /> },
-    { name: "KPIs", path: "/admin", icon: <HiChartBar className="h-5 w-5" /> },
+    { name: "KPIs", path: "/admin/kpis", icon: <HiChartBar className="h-5 w-5" /> },
     { name: "Settings", path: "/settings", icon: <FaGear className="h-5 w-5" /> },
   ];
 
