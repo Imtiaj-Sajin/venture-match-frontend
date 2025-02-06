@@ -105,13 +105,13 @@ export default function LeadsPage() {
 
       {/* Right Panel - Lead Details */}
       <div className="flex-1 p-6 bg-white overflow-y-auto">
-  {selectedLead ? (
+    {selectedLead ? (
     <div className="space-y-6">
       {/*  Map  */}
       {selectedLead.latitude && selectedLead.longitude && (
         <div className="rounded-xl overflow-hidden shadow-md">
           <iframe
-            src={`https://www.google.com/maps?q=${selectedLead.latitude},${selectedLead.longitude}&hl=es;z=14&output=embed`}
+            src={`https://www.google.com/maps?q=${selectedLead.latitude},${selectedLead.longitude}&hl=es;z=140&output=embed`}
             width="100%"
             height="200"
             style={{ border: 0 }}
@@ -159,44 +159,50 @@ export default function LeadsPage() {
         </div>
         <div className="text-gray-600">Source: {selectedLead.source}</div>
       </div>
+
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-purple-700 mb-3">
+                    Send Email
+                </h3>
+                <input
+                    type="text"
+                    placeholder="Subject"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="w-full p-2 border rounded-md mb-2 focus:outline-none"
+                />
+                <textarea
+                    placeholder="Your message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows="4"
+                    className="w-full p-2 border rounded-md focus:outline-none"
+                ></textarea>
+                <button
+                    onClick={handleSendEmail}
+                    disabled={emailLoading}
+                    className="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
+                >
+                    {emailLoading ? "Sending..." : "Send Email"}
+                </button>
+                {emailResponseMessage && (
+                    <p className="mt-2 text-center text-sm text-gray-600">
+                    {emailResponseMessage}
+                    </p>
+                )}
+                </div>
+      
+
     </div>
+    
+
   ) : (
     <div className="flex items-center justify-center h-full text-gray-500">
       <p>Select a lead to view details.</p>
     </div>
   )}
 
-<div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-purple-700 mb-3">
-            Send Email
-          </h3>
-          <input
-            type="text"
-            placeholder="Subject"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            className="w-full p-2 border rounded-md mb-2 focus:outline-none"
-          />
-          <textarea
-            placeholder="Your message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            rows="4"
-            className="w-full p-2 border rounded-md focus:outline-none"
-          ></textarea>
-          <button
-            onClick={handleSendEmail}
-            disabled={emailLoading}
-            className="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
-          >
-            {emailLoading ? "Sending..." : "Send Email"}
-          </button>
-          {emailResponseMessage && (
-            <p className="mt-2 text-center text-sm text-gray-600">
-              {emailResponseMessage}
-            </p>
-          )}
-        </div>
+        
 </div>
 
 

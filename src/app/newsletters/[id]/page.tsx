@@ -105,6 +105,8 @@ export default function NewsPage() {
             let matchScore = 0;
 
             if (item.keywords.some((kw: any) => data.keywords.includes(kw))) {
+            console.log("item.keywords ==> ", item.keywords);
+            console.log("data.keywords ==> ", data.keywords);
               matchScore += 3; 
             }
 
