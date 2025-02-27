@@ -16,7 +16,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    const response = await fetch("http://localhost:3000/auth/login", {
+    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -38,14 +38,14 @@ export default function LoginPage() {
 
   // Handle Google Login
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/google"; // Redirects to backend Google OAuth
+    window.location.href = process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/auth/google"; // Redirects to backend Google OAuth
   };
 
   // After Google login, check if the user is authenticated
   useEffect(() => {
     const checkGoogleLogin = async () => {
       try {
-        const response = await fetch("http://localhost:3000/auth/welcome", {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/auth/welcome", {
           method: "GET",
           credentials: "include", // Include cookies for authentication
         });

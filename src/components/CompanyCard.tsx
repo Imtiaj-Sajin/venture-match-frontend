@@ -33,7 +33,7 @@ export default function CompanyCard({ company, refreshCompanies }: CompanyProps)
     try {
       const updatedCompany = { ...company, admin_decision: decision };
 
-      const response = await fetch("http://localhost:3000/sajin/addCompanies", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/addCompanies", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

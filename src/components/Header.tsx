@@ -30,7 +30,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/logout", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/auth/logout", {
         method: "POST",
         credentials: "include",
       });

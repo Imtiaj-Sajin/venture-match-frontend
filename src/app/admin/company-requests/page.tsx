@@ -22,7 +22,7 @@ export default function CompanyRequests() {
   // Fetch queued companies from API
   const fetchQueuedCompanies = async () => {
     try {
-      const response = await fetch("http://localhost:3000/sajin/companies/queued", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/companies/queued", {
         method: "GET",
         credentials: "include",
         headers: {

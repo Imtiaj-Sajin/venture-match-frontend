@@ -31,7 +31,7 @@ export default function InvestorCard({ investor, refreshInvestors }: InvestorPro
     try {
       const updatedInvestor = { ...investor, admin_decision: decision };
 
-      const response = await fetch("http://localhost:3000/sajin/addInvestors", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/addInvestors", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

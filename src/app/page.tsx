@@ -18,7 +18,7 @@ export default function HomePage() {
   
   const fetchIPData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/leads/get-ip");
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/leads/get-ip");
       const data = await response.json();
       console.log("Fetched IP Data:", data);
       return data;
@@ -70,7 +70,7 @@ export default function HomePage() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/leads/track", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/leads/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(leadData),

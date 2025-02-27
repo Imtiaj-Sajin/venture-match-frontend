@@ -107,7 +107,7 @@ export default function CreateNewsletter() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/sajin/addNewsletter", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/addNewsletter", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

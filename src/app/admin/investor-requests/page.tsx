@@ -20,7 +20,7 @@ export default function InvestorRequests() {
   // Fetch queued investors from API
   const fetchQueuedInvestors = async () => {
     try {
-      const response = await fetch("http://localhost:3000/sajin/investors/queued", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/investors/queued", {
         method: "GET",
         credentials: "include",
         headers: {

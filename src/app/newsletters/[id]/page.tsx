@@ -23,7 +23,7 @@ export default function NewsPage() {
   // Fetch IP Data
   const fetchIPData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/leads/get-ip");
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/leads/get-ip");
       const data = await response.json();
       console.log("Fetched IP Data:", data);
       return data;
@@ -62,11 +62,11 @@ export default function NewsPage() {
       currency: ipData?.currency || "Unknown",
       mobile: ipData?.mobile || false,  
       device: ipData?.device || "Unknown",
-      source: "http://localhost:3001/newsletter/"+id,
+      source: process.env.NEXT_PUBLIC_FRONTEND_BASE_URL+"/newsletter/"+id,
     };
 
     try {
-      const response = await fetch("http://localhost:3000/leads/track", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/leads/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(leadData),
@@ -89,12 +89,12 @@ export default function NewsPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/sajin/newsletter/${id}`);
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+`/sajin/newsletter/${id}`);
         if (!response.ok) throw new Error("Failed to fetch news");
         const data = await response.json();
         setNews(data);
 
-        const allNewsResponse = await fetch("http://localhost:3000/sajin/allNewsletter");
+        const allNewsResponse = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/allNewsletter");
         if (!allNewsResponse.ok) throw new Error("Failed to fetch all news");
         const allNews = await allNewsResponse.json();
 

@@ -17,8 +17,9 @@ export default function Newsletters() {
 
   useEffect(() => {
     const fetchNewsletters = async () => {
+      
       try {
-        const response = await fetch("http://localhost:3000/sajin/allNewsletter");
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL+"/sajin/allNewsletter");
         if (!response.ok) throw new Error("Failed to fetch newsletters");
         const data = await response.json();
         data.sort((a, b) => new Date(b.postDateTime).getTime() - new Date(a.postDateTime).getTime()); // Sort by latest
