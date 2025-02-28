@@ -197,7 +197,7 @@ VALUES
 SELECT "email" 
 FROM lead
 WHERE DATE("createdAt") = '2025-02-05'
-
+--remember that postgree is case sensative, so i need to put double inverted comma on column names and see the case on table creation like: "createdAd" on leads.
    `;
   
   

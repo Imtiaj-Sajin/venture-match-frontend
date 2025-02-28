@@ -31,7 +31,7 @@ export default function AISearchPage() {
 
   return (
     <div className="p-8 bg-gray-50" style={{ height: "calc(100vh - 4rem)" }}>
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">AI Search</h1>
+      <h1 className="text-3xl font-bold text-purple-700 mb-6">AI Query</h1>
       <div className="flex gap-4 mb-6">
         <input
           type="text"
